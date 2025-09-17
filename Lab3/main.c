@@ -78,18 +78,19 @@ void tick()
     switch (PONG_State)
     {
     case Init:
-
+        //printf("INIT\n");
         if(rand()%2 == 1) {
             currentPlayer = PlayerL;
             ledsStates = 0x80;
-            printf("L Serving");
+            printf("L Serving\n");
         }
         else{
             currentPlayer = PlayerR;
             ledsStates = 0x01;
-            printf("R Serving");
+            printf("R Serving\n");
         }
-        led_out_write(ledsStates);    
+        led_out_write(ledsStates);
+        //printf("current_player_Init: %d\n", currentPlayer);    
         PONG_State = Serve;
     // TODO: Initialize the game
         // Hints:
@@ -102,13 +103,14 @@ void tick()
         break;
         
     case Serve:
-        if(currentPlayer == PlayerR && debounce_sw2_pressed()) {
-            PONG_State = Travel;
+    //printf("SERVE\n");
+        if(currentPlayer == PlayerR && debounce_sw2_pressed() && !debounce_sw1_pressed()) {
             currentPlayer = PlayerL;
-        }
-        else if (currentPlayer == PlayerL && debounce_sw1_pressed()) {
             PONG_State = Travel;
+        }
+        else if (currentPlayer == PlayerL && debounce_sw1_pressed() && !debounce_sw2_pressed()) {
             currentPlayer = PlayerR;
+            PONG_State = Travel;
         }
         else {
             PONG_State = Serve;
@@ -120,27 +122,30 @@ void tick()
     // - When pressed, switch to other player and go to Travel state
     case Travel:
 
-   
-
+        //printf("TRAVEL\n");
+        //printf("LedsState: %x\n", ledsStates);
         if(currentPlayer == PlayerL)
         {
 
             if(timer_elapsed_ms(travelTimer, timer_read()) >= gameTimer) 
             {
+                if(debounce_sw1_pressed()) {
+                    //printf("L SWING\n");
+                    PONG_State = Thwack;
+                }
                 if(ledsStates == 0x80)
                 {
+                    //printf("L WHIFF\n");
                     PONG_State = Victory;
                 }
                 else
                 {
-                ledsStates = ledsStates<<1;
-                led_out_write(ledsStates);
-                travelTimer = timer_read(); 
+                    ledsStates = ledsStates<<1;
+                    led_out_write(ledsStates);
+                    travelTimer = timer_read(); 
                 }
             }
-            if(debounce_sw1_pressed()) {
-                    PONG_State = Thwack;
-                }
+            
 
                 else
                 {
@@ -153,8 +158,13 @@ void tick()
 
             if(timer_elapsed_ms(travelTimer, timer_read()) >= gameTimer) 
             {
-                 if(ledsStates == 0x01)
+                if(debounce_sw2_pressed()) {
+                    //printf("R SWING\n");
+                    PONG_State = Thwack;
+                }
+                if(ledsStates == 0x01)
                 {
+                    //printf("R WHIFF\n");
                     PONG_State = Victory;
                 }
                 else
@@ -165,10 +175,7 @@ void tick()
                 travelTimer = timer_read(); 
                 }
             }
-            if(debounce_sw2_pressed()) {
-
-                    PONG_State = Thwack;
-                }
+            
                 else
                 {
                     PONG_State = Travel;
@@ -187,15 +194,23 @@ void tick()
 
 
         case Thwack:
-        
+        //printf("THWACK\n");
+        //printf("current_player_Init: %d\n", currentPlayer);
+        //printf("LedsState: %x\n", ledsStates);
         if(currentPlayer == PlayerL && ledsStates == 0x80)
         {
             currentPlayer = PlayerR;
+            gameTimer = (numberOfRoundsPlayed >= 5) ? 100 :
+                (numberOfRoundsPlayed >= 3) ? 200 : 300;
+            numberOfRoundsPlayed++;
             PONG_State = Travel;
         }
         else if(currentPlayer == PlayerR && ledsStates == 0x01)
         {
             currentPlayer = PlayerL;
+            gameTimer = (numberOfRoundsPlayed >= 5) ? 100 :
+                (numberOfRoundsPlayed >= 3) ? 200 : 300;
+            numberOfRoundsPlayed++;
             PONG_State = Travel; 
         }
         else if(currentPlayer == PlayerR && ledsStates != 0x01)
@@ -214,33 +229,54 @@ void tick()
     // - If they miss, go to Victory state
 
         case Victory:
-
-    if (timer_elapsed_ms(flashTime, timer_read()) >= 200) {
+            //printf("VICTORY\n");
+    /*if (timer_elapsed_ms(flashTime, timer_read()) >= 200) {
         flashTime = timer_read();
         ledsStates ^= (currentPlayer == PlayerL) ? 0x01 : 0x80;
         led_out_write(ledsStates);
-        flashCount++;
+        flashCount++;*/
 
-       if (flashCount >= 6) {
-    flashCount = 0;
-    gameTimer = (numberOfRoundsPlayed >= 5) ? 100 :
-                (numberOfRoundsPlayed >= 3) ? 200 : 300;
-    numberOfRoundsPlayed++;
+    /*   if (flashCount >= 6) {
+            flashCount = 0;*/
 
   if (currentPlayer == PlayerL) {
         scoreL -= 0;    // Left lost
         scoreR += 1;    // Right gains
         printf("Left player lost\n");
+        led_out_write(0x01);
+        sleep_ms(100);
+        led_out_write(0x00);
+        sleep_ms(100);
+        led_out_write(0x01);
+        sleep_ms(100);
+        led_out_write(0x00);
+        sleep_ms(100);
+        led_out_write(0x01);
+        sleep_ms(100);
+        led_out_write(0x00);
+        sleep_ms(250);
     } else {
         scoreR -= 0;    // Right lost
         scoreL += 1;    // Left gains
         printf("Right player lost\n");
+        led_out_write(0x80);
+        sleep_ms(100);
+        led_out_write(0x00);
+        sleep_ms(100);
+        led_out_write(0x80);
+        sleep_ms(100);
+        led_out_write(0x00);
+        sleep_ms(100);
+        led_out_write(0x80);
+        sleep_ms(100);
+        led_out_write(0x00);
+        sleep_ms(250);
     }
-
-    ledsStates = 0;
+    printf("Left Score: %d , Right Score: %d\n", scoreL, scoreR);
+    ledsStates = 0x00;
     led_out_write(ledsStates);
     PONG_State = Init;
-}
+
 
    break;
 
@@ -254,7 +290,11 @@ void tick()
 
     default:
         break;
-    }
+}
+
+
+
+
 }
 
 // Initialization function - TODO: Complete the initialization
@@ -283,6 +323,8 @@ led_out_init();
 
 int main()
 {
+    stdio_init_all();
+    uart_puts(UART_ID, "\n\nWelcom to the ball game folks\n");
     initializeStuff();
     
     // TODO: Set initial state for the state machine
@@ -318,9 +360,8 @@ int main()
             tick();
         
     }
+    return 0;
 }
-}
-
 /*
  * IMPLEMENTATION HINTS AND REQUIREMENTS:
  * 

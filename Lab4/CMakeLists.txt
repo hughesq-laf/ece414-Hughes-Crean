@@ -25,12 +25,10 @@ target_sources(Lab4 PRIVATE
 target_link_libraries(Lab4 PRIVATE
     pico_stdlib
     hardware_gpio
-pico_rand
+    pico_rand
     hardware_pio
     hardware_irq
     hardware_adc
-    TouchScreen
-    TFTMaster
     hardware_pwm 
     pico_bootsel_via_double_reset
 )

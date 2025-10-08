@@ -29,14 +29,7 @@ int32_t performOperation(int32_t num1, int32_t num2, OPERATOR op) {
     // === TODO: === Write remaining basic operations
     case MINUS: return num1 - num2;
     case MULT: return num1 * num2;
-    case DIV:
-        if(num2 != 0){
-            return num1 / num2;
-        }
-        else
-        {
-        tft_writeString("Syntax Error!");
-        }
+    case DIV: return num1 / num2; //CONDITION WAS MOVED TO main.c file
     break;
     // *** HINT: *** Use if condition to handle divide by zero case
     default: return 0;

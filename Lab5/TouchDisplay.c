@@ -128,7 +128,7 @@ Buttons getButton(uint16_t x, uint16_t y) {
     // === TODO: === Simple button detection
     // Check if within button 1 area
 
-     if (x >= COL1_X && x <= COL1_X + BUTTON_WIDTH &&
+    if (x >= COL1_X && x <= COL1_X + BUTTON_WIDTH &&
     y >= ROW4_Y && y <= ROW4_Y + BUTTON_HEIGHT) {
         return B0;
     }

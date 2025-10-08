@@ -44,7 +44,16 @@ int main() {
                 case CALC_FIRST_NUM:
                     if (pressNumber(pressedButton)) {
                         num1 = getInput(pressedButton);
-                        displayResult(num1);
+                        if((num1 / 100000000) != 0){
+                            displayError();
+                            sleep_ms(1000);
+                            clear();
+                            displayResult(0);
+                            CALC_State = CALC_INIT;
+                        }
+                        else {
+                            displayResult(num1);
+                        }
                     } else if (pressOperator(pressedButton)) {
                         currentOp = readOperator(pressedButton);
                         clear();
@@ -71,11 +80,29 @@ int main() {
                 case CALC_SECOND_NUM:
                     if (pressNumber(pressedButton)) {
                         num2 = getInput(pressedButton);
-                        displayResult(num2);
+                        if((num2 / 100000000) != 0) {
+                            displayError();
+                            sleep_ms(1000);
+                            clear();
+                            displayResult(0);
+                            CALC_State = CALC_INIT;
+                        }
+                        else {
+                            displayResult(num2);
+                        }
                     } else if (pressEq(pressedButton)) {
                         result = performOperation(num1, num2, currentOp);
-                        displayResult(result);
-                        CALC_State = CALC_SHOW_RESULT;
+                        if ((result / 100000000 | ((num2 == 0) & (currentOp == DIV))) != 0) {
+                            displayError();
+                            sleep_ms(1000);
+                            clear();
+                            displayResult(0);
+                            CALC_State = CALC_INIT;
+                        }
+                        else {
+                            displayResult(result);
+                            CALC_State = CALC_SHOW_RESULT;
+                        }
                     } else if (pressC(pressedButton)) {
                         clear();
                         displayResult(0);

@@ -1,0 +1,175 @@
+Detecting C compiler ABI info failed to compile with the following output:
+Change Dir: C:/Users/hughesq/Documents/pico/ece414-Hughes-Crean/Project1/Accel/CMakeFiles/CMakeScratch/TryCompile-rj0h61
+
+Run Build Command(s):nmake -f Makefile /nologo cmTC_fcbf6\fast && 	"C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.36.32532\bin\Hostx64\x64\nmake.exe"  -f CMakeFiles\cmTC_fcbf6.dir\build.make /nologo -L                  CMakeFiles\cmTC_fcbf6.dir\build
+Building C object CMakeFiles/cmTC_fcbf6.dir/CMakeCCompilerABI.c.obj
+	"C:\Program Files\Raspberry Pi\Pico SDK v1.5.1\cmake\bin\cmake.exe" -E cmake_cl_compile_depends --dep-file=CMakeFiles\cmTC_fcbf6.dir\CMakeCCompilerABI.c.obj.d --working-dir=C:\Users\hughesq\Documents\pico\ece414-Hughes-Crean\Project1\Accel\CMakeFiles\CMakeScratch\TryCompile-rj0h61 --filter-prefix="Note: including file: " -- C:\PROGRA~1\MIB055~1\2022\PROFES~1\VC\Tools\MSVC\1436~1.325\bin\Hostx64\x64\cl.exe @C:\Users\hughesq\AppData\Local\Temp\nmE107.tmp
+CMakeCCompilerABI.c
+Linking C executable cmTC_fcbf6.exe
+	"C:\Program Files\Raspberry Pi\Pico SDK v1.5.1\cmake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_fcbf6.dir --rc=rc --mt=CMAKE_MT-NOTFOUND --manifests -- C:\PROGRA~1\MIB055~1\2022\PROFES~1\VC\Tools\MSVC\1436~1.325\bin\Hostx64\x64\link.exe /nologo @CMakeFiles\cmTC_fcbf6.dir\objects1 @C:\Users\hughesq\AppData\Local\Temp\nmE185.tmp
+RC Pass 1: command "rc /fo CMakeFiles\cmTC_fcbf6.dir/manifest.res CMakeFiles\cmTC_fcbf6.dir/manifest.rc" failed (exit code 0) with the following output:
+The system cannot find the file specifiedNMAKE : fatal error U1077: '"C:\Program Files\Raspberry Pi\Pico SDK v1.5.1\cmake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_fcbf6.dir --rc=rc --mt=CMAKE_MT-NOTFOUND --manifests -- C:\PROGRA~1\MIB055~1\2022\PROFES~1\VC\Tools\MSVC\1436~1.325\bin\Hostx64\x64\link.exe /nologo @CMakeFiles\cmTC_fcbf6.dir\objects1 @C:\Users\hughesq\AppData\Local\Temp\nmE185.tmp' : return code '0xffffffff'
+Stop.
+NMAKE : fatal error U1077: '"C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.36.32532\bin\Hostx64\x64\nmake.exe"  -f CMakeFiles\cmTC_fcbf6.dir\build.make /nologo -L                  CMakeFiles\cmTC_fcbf6.dir\build' : return code '0x2'
+Stop.
+
+
+
+
+Determining if the C compiler works failed with the following output:
+Change Dir: C:/Users/hughesq/Documents/pico/ece414-Hughes-Crean/Project1/Accel/CMakeFiles/CMakeScratch/TryCompile-fzyouk
+
+Run Build Command(s):nmake -f Makefile /nologo cmTC_09957\fast && 	"C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.36.32532\bin\Hostx64\x64\nmake.exe"  -f CMakeFiles\cmTC_09957.dir\build.make /nologo -L                  CMakeFiles\cmTC_09957.dir\build
+Building C object CMakeFiles/cmTC_09957.dir/testCCompiler.c.obj
+	"C:\Program Files\Raspberry Pi\Pico SDK v1.5.1\cmake\bin\cmake.exe" -E cmake_cl_compile_depends --dep-file=CMakeFiles\cmTC_09957.dir\testCCompiler.c.obj.d --working-dir=C:\Users\hughesq\Documents\pico\ece414-Hughes-Crean\Project1\Accel\CMakeFiles\CMakeScratch\TryCompile-fzyouk --filter-prefix="Note: including file: " -- C:\PROGRA~1\MIB055~1\2022\PROFES~1\VC\Tools\MSVC\1436~1.325\bin\Hostx64\x64\cl.exe @C:\Users\hughesq\AppData\Local\Temp\nmE230.tmp
+testCCompiler.c
+Linking C executable cmTC_09957.exe
+	"C:\Program Files\Raspberry Pi\Pico SDK v1.5.1\cmake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_09957.dir --rc=rc --mt=CMAKE_MT-NOTFOUND --manifests -- C:\PROGRA~1\MIB055~1\2022\PROFES~1\VC\Tools\MSVC\1436~1.325\bin\Hostx64\x64\link.exe /nologo @CMakeFiles\cmTC_09957.dir\objects1 @C:\Users\hughesq\AppData\Local\Temp\nmE29E.tmp
+RC Pass 1: command "rc /fo CMakeFiles\cmTC_09957.dir/manifest.res CMakeFiles\cmTC_09957.dir/manifest.rc" failed (exit code 0) with the following output:
+The system cannot find the file specifiedNMAKE : fatal error U1077: '"C:\Program Files\Raspberry Pi\Pico SDK v1.5.1\cmake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_09957.dir --rc=rc --mt=CMAKE_MT-NOTFOUND --manifests -- C:\PROGRA~1\MIB055~1\2022\PROFES~1\VC\Tools\MSVC\1436~1.325\bin\Hostx64\x64\link.exe /nologo @CMakeFiles\cmTC_09957.dir\objects1 @C:\Users\hughesq\AppData\Local\Temp\nmE29E.tmp' : return code '0xffffffff'
+Stop.
+NMAKE : fatal error U1077: '"C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.36.32532\bin\Hostx64\x64\nmake.exe"  -f CMakeFiles\cmTC_09957.dir\build.make /nologo -L                  CMakeFiles\cmTC_09957.dir\build' : return code '0x2'
+Stop.
+
+
+
+Detecting C compiler ABI info failed to compile with the following output:
+Change Dir: C:/Users/hughesq/Documents/pico/ece414-Hughes-Crean/Project1/Accel/CMakeFiles/CMakeScratch/TryCompile-6moge5
+
+Run Build Command(s):nmake -f Makefile /nologo cmTC_ed240\fast && 	"C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.36.32532\bin\Hostx64\x64\nmake.exe"  -f CMakeFiles\cmTC_ed240.dir\build.make /nologo -L                  CMakeFiles\cmTC_ed240.dir\build
+Building C object CMakeFiles/cmTC_ed240.dir/CMakeCCompilerABI.c.obj
+	"C:\Program Files\Raspberry Pi\Pico SDK v1.5.1\cmake\bin\cmake.exe" -E cmake_cl_compile_depends --dep-file=CMakeFiles\cmTC_ed240.dir\CMakeCCompilerABI.c.obj.d --working-dir=C:\Users\hughesq\Documents\pico\ece414-Hughes-Crean\Project1\Accel\CMakeFiles\CMakeScratch\TryCompile-6moge5 --filter-prefix="Note: including file: " -- C:\PROGRA~1\MIB055~1\2022\PROFES~1\VC\Tools\MSVC\1436~1.325\bin\Hostx64\x64\cl.exe @C:\Users\hughesq\AppData\Local\Temp\nmB34.tmp
+CMakeCCompilerABI.c
+Linking C executable cmTC_ed240.exe
+	"C:\Program Files\Raspberry Pi\Pico SDK v1.5.1\cmake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_ed240.dir --rc=rc --mt=CMAKE_MT-NOTFOUND --manifests -- C:\PROGRA~1\MIB055~1\2022\PROFES~1\VC\Tools\MSVC\1436~1.325\bin\Hostx64\x64\link.exe /nologo @CMakeFiles\cmTC_ed240.dir\objects1 @C:\Users\hughesq\AppData\Local\Temp\nmB93.tmp
+RC Pass 1: command "rc /fo CMakeFiles\cmTC_ed240.dir/manifest.res CMakeFiles\cmTC_ed240.dir/manifest.rc" failed (exit code 0) with the following output:
+The system cannot find the file specifiedNMAKE : fatal error U1077: '"C:\Program Files\Raspberry Pi\Pico SDK v1.5.1\cmake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_ed240.dir --rc=rc --mt=CMAKE_MT-NOTFOUND --manifests -- C:\PROGRA~1\MIB055~1\2022\PROFES~1\VC\Tools\MSVC\1436~1.325\bin\Hostx64\x64\link.exe /nologo @CMakeFiles\cmTC_ed240.dir\objects1 @C:\Users\hughesq\AppData\Local\Temp\nmB93.tmp' : return code '0xffffffff'
+Stop.
+NMAKE : fatal error U1077: '"C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.36.32532\bin\Hostx64\x64\nmake.exe"  -f CMakeFiles\cmTC_ed240.dir\build.make /nologo -L                  CMakeFiles\cmTC_ed240.dir\build' : return code '0x2'
+Stop.
+
+
+
+
+Determining if the C compiler works failed with the following output:
+Change Dir: C:/Users/hughesq/Documents/pico/ece414-Hughes-Crean/Project1/Accel/CMakeFiles/CMakeScratch/TryCompile-3xf2ga
+
+Run Build Command(s):nmake -f Makefile /nologo cmTC_a8967\fast && 	"C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.36.32532\bin\Hostx64\x64\nmake.exe"  -f CMakeFiles\cmTC_a8967.dir\build.make /nologo -L                  CMakeFiles\cmTC_a8967.dir\build
+Building C object CMakeFiles/cmTC_a8967.dir/testCCompiler.c.obj
+	"C:\Program Files\Raspberry Pi\Pico SDK v1.5.1\cmake\bin\cmake.exe" -E cmake_cl_compile_depends --dep-file=CMakeFiles\cmTC_a8967.dir\testCCompiler.c.obj.d --working-dir=C:\Users\hughesq\Documents\pico\ece414-Hughes-Crean\Project1\Accel\CMakeFiles\CMakeScratch\TryCompile-3xf2ga --filter-prefix="Note: including file: " -- C:\PROGRA~1\MIB055~1\2022\PROFES~1\VC\Tools\MSVC\1436~1.325\bin\Hostx64\x64\cl.exe @C:\Users\hughesq\AppData\Local\Temp\nmC5D.tmp
+testCCompiler.c
+Linking C executable cmTC_a8967.exe
+	"C:\Program Files\Raspberry Pi\Pico SDK v1.5.1\cmake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_a8967.dir --rc=rc --mt=CMAKE_MT-NOTFOUND --manifests -- C:\PROGRA~1\MIB055~1\2022\PROFES~1\VC\Tools\MSVC\1436~1.325\bin\Hostx64\x64\link.exe /nologo @CMakeFiles\cmTC_a8967.dir\objects1 @C:\Users\hughesq\AppData\Local\Temp\nmCCB.tmp
+RC Pass 1: command "rc /fo CMakeFiles\cmTC_a8967.dir/manifest.res CMakeFiles\cmTC_a8967.dir/manifest.rc" failed (exit code 0) with the following output:
+The system cannot find the file specifiedNMAKE : fatal error U1077: '"C:\Program Files\Raspberry Pi\Pico SDK v1.5.1\cmake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_a8967.dir --rc=rc --mt=CMAKE_MT-NOTFOUND --manifests -- C:\PROGRA~1\MIB055~1\2022\PROFES~1\VC\Tools\MSVC\1436~1.325\bin\Hostx64\x64\link.exe /nologo @CMakeFiles\cmTC_a8967.dir\objects1 @C:\Users\hughesq\AppData\Local\Temp\nmCCB.tmp' : return code '0xffffffff'
+Stop.
+NMAKE : fatal error U1077: '"C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.36.32532\bin\Hostx64\x64\nmake.exe"  -f CMakeFiles\cmTC_a8967.dir\build.make /nologo -L                  CMakeFiles\cmTC_a8967.dir\build' : return code '0x2'
+Stop.
+
+
+
+Detecting C compiler ABI info failed to compile with the following output:
+Change Dir: C:/Users/hughesq/Documents/pico/ece414-Hughes-Crean/Project1/Accel/CMakeFiles/CMakeScratch/TryCompile-2mphgb
+
+Run Build Command(s):nmake -f Makefile /nologo cmTC_82103\fast && 	"C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.36.32532\bin\Hostx64\x64\nmake.exe"  -f CMakeFiles\cmTC_82103.dir\build.make /nologo -L                  CMakeFiles\cmTC_82103.dir\build
+Building C object CMakeFiles/cmTC_82103.dir/CMakeCCompilerABI.c.obj
+	"C:\Program Files\Raspberry Pi\Pico SDK v1.5.1\cmake\bin\cmake.exe" -E cmake_cl_compile_depends --dep-file=CMakeFiles\cmTC_82103.dir\CMakeCCompilerABI.c.obj.d --working-dir=C:\Users\hughesq\Documents\pico\ece414-Hughes-Crean\Project1\Accel\CMakeFiles\CMakeScratch\TryCompile-2mphgb --filter-prefix="Note: including file: " -- C:\PROGRA~1\MIB055~1\2022\PROFES~1\VC\Tools\MSVC\1436~1.325\bin\Hostx64\x64\cl.exe @C:\Users\hughesq\AppData\Local\Temp\nmC702.tmp
+CMakeCCompilerABI.c
+Linking C executable cmTC_82103.exe
+	"C:\Program Files\Raspberry Pi\Pico SDK v1.5.1\cmake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_82103.dir --rc=rc --mt=CMAKE_MT-NOTFOUND --manifests -- C:\PROGRA~1\MIB055~1\2022\PROFES~1\VC\Tools\MSVC\1436~1.325\bin\Hostx64\x64\link.exe /nologo @CMakeFiles\cmTC_82103.dir\objects1 @C:\Users\hughesq\AppData\Local\Temp\nmC780.tmp
+RC Pass 1: command "rc /fo CMakeFiles\cmTC_82103.dir/manifest.res CMakeFiles\cmTC_82103.dir/manifest.rc" failed (exit code 0) with the following output:
+The system cannot find the file specifiedNMAKE : fatal error U1077: '"C:\Program Files\Raspberry Pi\Pico SDK v1.5.1\cmake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_82103.dir --rc=rc --mt=CMAKE_MT-NOTFOUND --manifests -- C:\PROGRA~1\MIB055~1\2022\PROFES~1\VC\Tools\MSVC\1436~1.325\bin\Hostx64\x64\link.exe /nologo @CMakeFiles\cmTC_82103.dir\objects1 @C:\Users\hughesq\AppData\Local\Temp\nmC780.tmp' : return code '0xffffffff'
+Stop.
+NMAKE : fatal error U1077: '"C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.36.32532\bin\Hostx64\x64\nmake.exe"  -f CMakeFiles\cmTC_82103.dir\build.make /nologo -L                  CMakeFiles\cmTC_82103.dir\build' : return code '0x2'
+Stop.
+
+
+
+
+Determining if the C compiler works failed with the following output:
+Change Dir: C:/Users/hughesq/Documents/pico/ece414-Hughes-Crean/Project1/Accel/CMakeFiles/CMakeScratch/TryCompile-s5h3p1
+
+Run Build Command(s):nmake -f Makefile /nologo cmTC_9a4f3\fast && 	"C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.36.32532\bin\Hostx64\x64\nmake.exe"  -f CMakeFiles\cmTC_9a4f3.dir\build.make /nologo -L                  CMakeFiles\cmTC_9a4f3.dir\build
+Building C object CMakeFiles/cmTC_9a4f3.dir/testCCompiler.c.obj
+	"C:\Program Files\Raspberry Pi\Pico SDK v1.5.1\cmake\bin\cmake.exe" -E cmake_cl_compile_depends --dep-file=CMakeFiles\cmTC_9a4f3.dir\testCCompiler.c.obj.d --working-dir=C:\Users\hughesq\Documents\pico\ece414-Hughes-Crean\Project1\Accel\CMakeFiles\CMakeScratch\TryCompile-s5h3p1 --filter-prefix="Note: including file: " -- C:\PROGRA~1\MIB055~1\2022\PROFES~1\VC\Tools\MSVC\1436~1.325\bin\Hostx64\x64\cl.exe @C:\Users\hughesq\AppData\Local\Temp\nmC82B.tmp
+testCCompiler.c
+Linking C executable cmTC_9a4f3.exe
+	"C:\Program Files\Raspberry Pi\Pico SDK v1.5.1\cmake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_9a4f3.dir --rc=rc --mt=CMAKE_MT-NOTFOUND --manifests -- C:\PROGRA~1\MIB055~1\2022\PROFES~1\VC\Tools\MSVC\1436~1.325\bin\Hostx64\x64\link.exe /nologo @CMakeFiles\cmTC_9a4f3.dir\objects1 @C:\Users\hughesq\AppData\Local\Temp\nmC899.tmp
+RC Pass 1: command "rc /fo CMakeFiles\cmTC_9a4f3.dir/manifest.res CMakeFiles\cmTC_9a4f3.dir/manifest.rc" failed (exit code 0) with the following output:
+The system cannot find the file specifiedNMAKE : fatal error U1077: '"C:\Program Files\Raspberry Pi\Pico SDK v1.5.1\cmake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_9a4f3.dir --rc=rc --mt=CMAKE_MT-NOTFOUND --manifests -- C:\PROGRA~1\MIB055~1\2022\PROFES~1\VC\Tools\MSVC\1436~1.325\bin\Hostx64\x64\link.exe /nologo @CMakeFiles\cmTC_9a4f3.dir\objects1 @C:\Users\hughesq\AppData\Local\Temp\nmC899.tmp' : return code '0xffffffff'
+Stop.
+NMAKE : fatal error U1077: '"C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.36.32532\bin\Hostx64\x64\nmake.exe"  -f CMakeFiles\cmTC_9a4f3.dir\build.make /nologo -L                  CMakeFiles\cmTC_9a4f3.dir\build' : return code '0x2'
+Stop.
+
+
+
+Detecting C compiler ABI info failed to compile with the following output:
+Change Dir: C:/Users/hughesq/Documents/pico/ece414-Hughes-Crean/Project1/Accel/CMakeFiles/CMakeScratch/TryCompile-8cfswz
+
+Run Build Command(s):nmake -f Makefile /nologo cmTC_23c8c\fast && 	"C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.36.32532\bin\Hostx64\x64\nmake.exe"  -f CMakeFiles\cmTC_23c8c.dir\build.make /nologo -L                  CMakeFiles\cmTC_23c8c.dir\build
+Building C object CMakeFiles/cmTC_23c8c.dir/CMakeCCompilerABI.c.obj
+	"C:\Program Files\Raspberry Pi\Pico SDK v1.5.1\cmake\bin\cmake.exe" -E cmake_cl_compile_depends --dep-file=CMakeFiles\cmTC_23c8c.dir\CMakeCCompilerABI.c.obj.d --working-dir=C:\Users\hughesq\Documents\pico\ece414-Hughes-Crean\Project1\Accel\CMakeFiles\CMakeScratch\TryCompile-8cfswz --filter-prefix="Note: including file: " -- C:\PROGRA~1\MIB055~1\2022\PROFES~1\VC\Tools\MSVC\1436~1.325\bin\Hostx64\x64\cl.exe @C:\Users\hughesq\AppData\Local\Temp\nmA260.tmp
+CMakeCCompilerABI.c
+Linking C executable cmTC_23c8c.exe
+	"C:\Program Files\Raspberry Pi\Pico SDK v1.5.1\cmake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_23c8c.dir --rc=rc --mt=CMAKE_MT-NOTFOUND --manifests -- C:\PROGRA~1\MIB055~1\2022\PROFES~1\VC\Tools\MSVC\1436~1.325\bin\Hostx64\x64\link.exe /nologo @CMakeFiles\cmTC_23c8c.dir\objects1 @C:\Users\hughesq\AppData\Local\Temp\nmA2CE.tmp
+RC Pass 1: command "rc /fo CMakeFiles\cmTC_23c8c.dir/manifest.res CMakeFiles\cmTC_23c8c.dir/manifest.rc" failed (exit code 0) with the following output:
+The system cannot find the file specifiedNMAKE : fatal error U1077: '"C:\Program Files\Raspberry Pi\Pico SDK v1.5.1\cmake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_23c8c.dir --rc=rc --mt=CMAKE_MT-NOTFOUND --manifests -- C:\PROGRA~1\MIB055~1\2022\PROFES~1\VC\Tools\MSVC\1436~1.325\bin\Hostx64\x64\link.exe /nologo @CMakeFiles\cmTC_23c8c.dir\objects1 @C:\Users\hughesq\AppData\Local\Temp\nmA2CE.tmp' : return code '0xffffffff'
+Stop.
+NMAKE : fatal error U1077: '"C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.36.32532\bin\Hostx64\x64\nmake.exe"  -f CMakeFiles\cmTC_23c8c.dir\build.make /nologo -L                  CMakeFiles\cmTC_23c8c.dir\build' : return code '0x2'
+Stop.
+
+
+
+
+Determining if the C compiler works failed with the following output:
+Change Dir: C:/Users/hughesq/Documents/pico/ece414-Hughes-Crean/Project1/Accel/CMakeFiles/CMakeScratch/TryCompile-4gjsrv
+
+Run Build Command(s):nmake -f Makefile /nologo cmTC_19dfd\fast && 	"C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.36.32532\bin\Hostx64\x64\nmake.exe"  -f CMakeFiles\cmTC_19dfd.dir\build.make /nologo -L                  CMakeFiles\cmTC_19dfd.dir\build
+Building C object CMakeFiles/cmTC_19dfd.dir/testCCompiler.c.obj
+	"C:\Program Files\Raspberry Pi\Pico SDK v1.5.1\cmake\bin\cmake.exe" -E cmake_cl_compile_depends --dep-file=CMakeFiles\cmTC_19dfd.dir\testCCompiler.c.obj.d --working-dir=C:\Users\hughesq\Documents\pico\ece414-Hughes-Crean\Project1\Accel\CMakeFiles\CMakeScratch\TryCompile-4gjsrv --filter-prefix="Note: including file: " -- C:\PROGRA~1\MIB055~1\2022\PROFES~1\VC\Tools\MSVC\1436~1.325\bin\Hostx64\x64\cl.exe @C:\Users\hughesq\AppData\Local\Temp\nmA379.tmp
+testCCompiler.c
+Linking C executable cmTC_19dfd.exe
+	"C:\Program Files\Raspberry Pi\Pico SDK v1.5.1\cmake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_19dfd.dir --rc=rc --mt=CMAKE_MT-NOTFOUND --manifests -- C:\PROGRA~1\MIB055~1\2022\PROFES~1\VC\Tools\MSVC\1436~1.325\bin\Hostx64\x64\link.exe /nologo @CMakeFiles\cmTC_19dfd.dir\objects1 @C:\Users\hughesq\AppData\Local\Temp\nmA3E7.tmp
+RC Pass 1: command "rc /fo CMakeFiles\cmTC_19dfd.dir/manifest.res CMakeFiles\cmTC_19dfd.dir/manifest.rc" failed (exit code 0) with the following output:
+The system cannot find the file specifiedNMAKE : fatal error U1077: '"C:\Program Files\Raspberry Pi\Pico SDK v1.5.1\cmake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_19dfd.dir --rc=rc --mt=CMAKE_MT-NOTFOUND --manifests -- C:\PROGRA~1\MIB055~1\2022\PROFES~1\VC\Tools\MSVC\1436~1.325\bin\Hostx64\x64\link.exe /nologo @CMakeFiles\cmTC_19dfd.dir\objects1 @C:\Users\hughesq\AppData\Local\Temp\nmA3E7.tmp' : return code '0xffffffff'
+Stop.
+NMAKE : fatal error U1077: '"C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.36.32532\bin\Hostx64\x64\nmake.exe"  -f CMakeFiles\cmTC_19dfd.dir\build.make /nologo -L                  CMakeFiles\cmTC_19dfd.dir\build' : return code '0x2'
+Stop.
+
+
+
+Detecting C compiler ABI info failed to compile with the following output:
+Change Dir: C:/Users/hughesq/Documents/pico/ece414-Hughes-Crean/Project1/Accel/CMakeFiles/CMakeScratch/TryCompile-9a3nhb
+
+Run Build Command(s):nmake -f Makefile /nologo cmTC_26636\fast && 	"C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.36.32532\bin\Hostx64\x64\nmake.exe"  -f CMakeFiles\cmTC_26636.dir\build.make /nologo -L                  CMakeFiles\cmTC_26636.dir\build
+Building C object CMakeFiles/cmTC_26636.dir/CMakeCCompilerABI.c.obj
+	"C:\Program Files\Raspberry Pi\Pico SDK v1.5.1\cmake\bin\cmake.exe" -E cmake_cl_compile_depends --dep-file=CMakeFiles\cmTC_26636.dir\CMakeCCompilerABI.c.obj.d --working-dir=C:\Users\hughesq\Documents\pico\ece414-Hughes-Crean\Project1\Accel\CMakeFiles\CMakeScratch\TryCompile-9a3nhb --filter-prefix="Note: including file: " -- C:\PROGRA~1\MIB055~1\2022\PROFES~1\VC\Tools\MSVC\1436~1.325\bin\Hostx64\x64\cl.exe @C:\Users\hughesq\AppData\Local\Temp\nm1F4B.tmp
+CMakeCCompilerABI.c
+Linking C executable cmTC_26636.exe
+	"C:\Program Files\Raspberry Pi\Pico SDK v1.5.1\cmake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_26636.dir --rc=rc --mt=CMAKE_MT-NOTFOUND --manifests -- C:\PROGRA~1\MIB055~1\2022\PROFES~1\VC\Tools\MSVC\1436~1.325\bin\Hostx64\x64\link.exe /nologo @CMakeFiles\cmTC_26636.dir\objects1 @C:\Users\hughesq\AppData\Local\Temp\nm1FC9.tmp
+RC Pass 1: command "rc /fo CMakeFiles\cmTC_26636.dir/manifest.res CMakeFiles\cmTC_26636.dir/manifest.rc" failed (exit code 0) with the following output:
+The system cannot find the file specifiedNMAKE : fatal error U1077: '"C:\Program Files\Raspberry Pi\Pico SDK v1.5.1\cmake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_26636.dir --rc=rc --mt=CMAKE_MT-NOTFOUND --manifests -- C:\PROGRA~1\MIB055~1\2022\PROFES~1\VC\Tools\MSVC\1436~1.325\bin\Hostx64\x64\link.exe /nologo @CMakeFiles\cmTC_26636.dir\objects1 @C:\Users\hughesq\AppData\Local\Temp\nm1FC9.tmp' : return code '0xffffffff'
+Stop.
+NMAKE : fatal error U1077: '"C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.36.32532\bin\Hostx64\x64\nmake.exe"  -f CMakeFiles\cmTC_26636.dir\build.make /nologo -L                  CMakeFiles\cmTC_26636.dir\build' : return code '0x2'
+Stop.
+
+
+
+
+Determining if the C compiler works failed with the following output:
+Change Dir: C:/Users/hughesq/Documents/pico/ece414-Hughes-Crean/Project1/Accel/CMakeFiles/CMakeScratch/TryCompile-i4g64x
+
+Run Build Command(s):nmake -f Makefile /nologo cmTC_44643\fast && 	"C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.36.32532\bin\Hostx64\x64\nmake.exe"  -f CMakeFiles\cmTC_44643.dir\build.make /nologo -L                  CMakeFiles\cmTC_44643.dir\build
+Building C object CMakeFiles/cmTC_44643.dir/testCCompiler.c.obj
+	"C:\Program Files\Raspberry Pi\Pico SDK v1.5.1\cmake\bin\cmake.exe" -E cmake_cl_compile_depends --dep-file=CMakeFiles\cmTC_44643.dir\testCCompiler.c.obj.d --working-dir=C:\Users\hughesq\Documents\pico\ece414-Hughes-Crean\Project1\Accel\CMakeFiles\CMakeScratch\TryCompile-i4g64x --filter-prefix="Note: including file: " -- C:\PROGRA~1\MIB055~1\2022\PROFES~1\VC\Tools\MSVC\1436~1.325\bin\Hostx64\x64\cl.exe @C:\Users\hughesq\AppData\Local\Temp\nm2093.tmp
+testCCompiler.c
+Linking C executable cmTC_44643.exe
+	"C:\Program Files\Raspberry Pi\Pico SDK v1.5.1\cmake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_44643.dir --rc=rc --mt=CMAKE_MT-NOTFOUND --manifests -- C:\PROGRA~1\MIB055~1\2022\PROFES~1\VC\Tools\MSVC\1436~1.325\bin\Hostx64\x64\link.exe /nologo @CMakeFiles\cmTC_44643.dir\objects1 @C:\Users\hughesq\AppData\Local\Temp\nm2102.tmp
+RC Pass 1: command "rc /fo CMakeFiles\cmTC_44643.dir/manifest.res CMakeFiles\cmTC_44643.dir/manifest.rc" failed (exit code 0) with the following output:
+The system cannot find the file specifiedNMAKE : fatal error U1077: '"C:\Program Files\Raspberry Pi\Pico SDK v1.5.1\cmake\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_44643.dir --rc=rc --mt=CMAKE_MT-NOTFOUND --manifests -- C:\PROGRA~1\MIB055~1\2022\PROFES~1\VC\Tools\MSVC\1436~1.325\bin\Hostx64\x64\link.exe /nologo @CMakeFiles\cmTC_44643.dir\objects1 @C:\Users\hughesq\AppData\Local\Temp\nm2102.tmp' : return code '0xffffffff'
+Stop.
+NMAKE : fatal error U1077: '"C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.36.32532\bin\Hostx64\x64\nmake.exe"  -f CMakeFiles\cmTC_44643.dir\build.make /nologo -L                  CMakeFiles\cmTC_44643.dir\build' : return code '0x2'
+Stop.
+
+
+

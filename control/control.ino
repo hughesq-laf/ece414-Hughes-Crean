@@ -14,8 +14,8 @@
 #define IN2 9
 #define IN3 10
 #define IN4 11
-#define ENA XX //PWM Pins for motor.
-#define ENB XX
+#define ENA 6 //PWM Pins for motor.
+#define ENB 5
 
 // ---------------- Servo --------------------
 #define SERVO_PIN 18

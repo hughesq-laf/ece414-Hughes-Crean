@@ -47,6 +47,7 @@ void setup() {
 
 // -------- Motor Control --------
 void driveForward() {
+  updateHCSR04();
   int speedPWM = computeSpeedPWM(distanceCm);
   analogWrite(ENA, speedPWM);
   analogWrite(ENB, speedPWM);

@@ -1,15 +1,8 @@
-#include <SPI.h>
-#include <LoRa.h>
 #include <Servo.h>
 #include "Computation.h"
 #include "hcsr04.h"
 
-// ---------------- LoRa Pins ----------------
-#define LORA_CS   5
-#define LORA_RST  19
-#define LORA_IRQ  2
-
-// ---------------- Motor Pins ---------------
+// -------- Pin Definitions --------
 #define IN1 8
 #define IN2 9
 #define IN3 10
@@ -17,18 +10,15 @@
 #define ENA 6 //PWM Pins for motor.
 #define ENB 5
 
-// ---------------- Servo --------------------
-#define SERVO_PIN 18
+#define SERVO_PIN 18  // Steering servo pin
+#define LED_PIN 16    // Status LED
+
+// -------- Objects --------
 Servo steering;
 
-// ---------------- LED ----------------------
-#define LED_PIN 16
-
+// -------- Setup --------
 void setup() {
-  Serial.begin(9600);
-
-  pinMode(LED_PIN, OUTPUT);
-
+  // Motor pins
   pinMode(IN1, OUTPUT);
   pinMode(IN2, OUTPUT);
   pinMode(IN3, OUTPUT);
@@ -36,62 +26,92 @@ void setup() {
   pinMode(ENA, OUTPUT);
   pinMode(ENB, OUTPUT);
 
+  // Servo
   steering.attach(SERVO_PIN);
-  steering.write(90);
 
-  // SPI pin remap
-  SPI.setSCK(6);
-  SPI.setTX(7);
-  SPI.setRX(4);
+  // LED
+  pinMode(LED_PIN, OUTPUT);
 
-  LoRa.setPins(LORA_CS, LORA_RST, LORA_IRQ);
+  // Bluetooth UART (Bluefruit LE UART Friend)
+  Serial1.begin(9600);   // UART to BLE module
+  Serial.begin(9600);    // USB debug
 
-  Serial.println("Starting LoRa…");
+  // Initialize motors off
+  stopMotors();
+  steering.write(90);  // center servo
 
-  if (!LoRa.begin(915E6)) {
-    Serial.println("LoRa init failed!");
-    while (1);
-  }
-
-  Serial.println("LoRa init success!");
+  Serial.println("Pico car system initialized.");
+  initHCSR04();
+  int speedPWM = 0;
 }
 
+// -------- Motor Control --------
+void driveForward() {
+  int speedPWM = computeSpeedPWM(distanceCm);
+  analogWrite(ENA, speedPWM);
+  analogWrite(ENB, speedPWM);
+  Serial.print("Speed: ");
+  Serial.println(speedPWM);
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, LOW);
+}
+
+void driveBackward() {
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, HIGH);
+
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, HIGH);
+}
+
+void stopMotors() {
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, LOW);
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, LOW);
+}
+
+// -------- Main Loop --------
 void loop() {
-
-  // ----- heartbeat -----
+  
+  // Blink the LED for heartbeat
   digitalWrite(LED_PIN, HIGH);
-  delay(100);
+  delay(200);
   digitalWrite(LED_PIN, LOW);
-  delay(100);
+  delay(200);
 
-  // ----- receive packets -----
-  int packetSize = LoRa.parsePacket();
-  if (packetSize) {
-    String received = LoRa.readString();
-    Serial.print("RX: ");
-    Serial.println(received);
-
-    // Format: "F,120"
-    char movement = received.charAt(0);
-    int commaIndex = received.indexOf(',');
-    int angle = received.substring(commaIndex + 1).toInt();
-
-    // Steering
-    steering.write(angle);
+  // Listen for commands from the Bluefruit UART
+  if (Serial1.available()) {
+    String cmd = Serial1.readStringUntil('\n');
+    cmd.trim();
     updateHCSR04();
-    // Movement
-    if (movement == 'F') {
-      int speedPWM = computeSpeedPWM(float distanceCm);
-      analogWrite(ENA, speedPWM);
-      analogWrite(ENB, speedPWM);
-      digitalWrite(IN1, HIGH); digitalWrite(IN2, LOW);
-      digitalWrite(IN3, HIGH); digitalWrite(IN4, LOW);
-    } else if (movement == 'B') {
-      digitalWrite(IN1, LOW); digitalWrite(IN2, HIGH);
-      digitalWrite(IN3, LOW); digitalWrite(IN4, HIGH);
-    } else {
-      digitalWrite(IN1, LOW); digitalWrite(IN2, LOW);
-      digitalWrite(IN3, LOW); digitalWrite(IN4, LOW);
+    if (cmd == "F") {
+      driveForward();
+      Serial.println("Forward");
+    }
+    else if (cmd == "B") {
+      driveBackward();
+      Serial.println("Backward");
+    }
+    else if (cmd == "S") {
+      stopMotors();
+      Serial.println("Stop");
+    }
+    else {
+      // Interpret as steering angle
+      int angle = cmd.toInt();
+
+      if (angle >= 0 && angle <= 180) {
+        steering.write(angle);
+        Serial.print("Steering angle: ");
+        Serial.println(angle);
+      } else {
+        Serial.print("Invalid angle: ");
+        Serial.println(cmd);
+      }
     }
   }
 }

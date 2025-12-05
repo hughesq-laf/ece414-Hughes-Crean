@@ -1,0 +1,156 @@
+// CONTROLLER WITH JOYSTICK
+const int LED_PIN = 4;
+const int JOYSTICK_X = 26;  // GP26 for X-axis
+const int JOYSTICK_Y = 27;  // GP27 for Y-axis
+
+// Joystick calibration
+int centerX = 2048;  // Typically ~2048 for 12-bit ADC
+int centerY = 2048;
+int deadzone = 100;  // Deadzone to prevent drifting
+
+// Variables
+int lastSteerAngle = 90;
+int lastDirection = 0;  // 0=stop, 1=forward, -1=backward
+unsigned long lastSendTime = 0;
+const unsigned long SEND_INTERVAL = 100;  // Send every 100ms
+
+void setup() {
+  // Debug serial
+  Serial.begin(115200);
+  
+  // HC-12 Serial
+  Serial1.setTX(0);  // GP0 -> HC-12 RX
+  Serial1.setRX(1);  // GP1 <- HC-12 TX
+  Serial1.begin(9600);
+  
+  // Configure pins
+  pinMode(LED_PIN, OUTPUT);
+  analogReadResolution(12);  // Set ADC to 12-bit (0-4095)
+  
+  // Startup messages
+  Serial.println("Pico ready");
+  Serial.println("UART configured: GP0(TX), GP1(RX)");
+  Serial.println("HC-12 initialized at 9600 baud");
+  Serial.println("Joystick controller ready");
+  
+  // Startup blink
+  for(int i = 0; i < 3; i++) {
+    digitalWrite(LED_PIN, HIGH);
+    delay(200);
+    digitalWrite(LED_PIN, LOW);
+    delay(200);
+  }
+  
+  // Calibrate joystick center (read initial position)
+  centerX = analogRead(JOYSTICK_X);
+  centerY = analogRead(JOYSTICK_Y);
+  Serial.print("Joystick calibrated - Center X: ");
+  Serial.print(centerX);
+  Serial.print(", Y: ");
+  Serial.println(centerY);
+}
+
+void loop() {
+  unsigned long currentTime = millis();
+  
+  if (currentTime - lastSendTime >= SEND_INTERVAL) {
+    // Read joystick
+    int joyX = analogRead(JOYSTICK_X);
+    int joyY = analogRead(JOYSTICK_Y);
+    
+    // Process Y-axis (forward/backward)
+    int direction = getDirection(joyY);
+    
+    // Process X-axis (steering)
+    int steerAngle = getSteeringAngle(joyX);
+    
+    // Send commands if changed
+    sendCommands(direction, steerAngle);
+    
+    // Debug output
+    Serial.print("Joy X:");
+    Serial.print(joyX);
+    Serial.print(" Y:");
+    Serial.print(joyY);
+    Serial.print(" Dir:");
+    Serial.print(direction);
+    Serial.print(" Steer:");
+    Serial.println(steerAngle);
+    
+    lastSendTime = currentTime;
+  }
+}
+
+int getDirection(int joyY) {
+  int yDiff = joyY - centerY;
+  
+  if (yDiff > deadzone) {
+    return -1;  // Backward (joystick down)
+  } else if (yDiff < -deadzone) {
+    return 1;   // Forward (joystick up)
+  } else {
+    return 0;   // Stop
+  }
+}
+
+int getSteeringAngle(int joyX) {
+  int xDiff = joyX - centerX;
+  
+  if (abs(xDiff) < deadzone) {
+    return 90;  // Center position
+  }
+  
+  // Map joystick X position (0-4095) to servo angle (0-180)
+  // Inverted because left on joystick = servo left (0-90)
+  // and right on joystick = servo right (90-180)
+  
+  // Normalize to -1.0 to 1.0
+  float normalized = (float)(xDiff) / (centerX * 0.8);  // Use 80% of range
+  
+  // Clamp to -1 to 1
+  if (normalized < -1.0) normalized = -1.0;
+  if (normalized > 1.0) normalized = 1.0;
+  
+  // Map to servo angle (0-180)
+  int angle = 90 + (normalized * 90);
+  
+  // Clamp to servo limits
+  if (angle < 0) angle = 0;
+  if (angle > 180) angle = 180;
+  
+  return angle;
+}
+
+void sendCommands(int direction, int steerAngle) {
+  // Send direction command
+  if (direction != lastDirection) {
+    switch(direction) {
+      case 1:  // Forward
+        Serial1.println("F");
+        Serial.println("Sent: F (Forward)");
+        break;
+      case -1: // Backward
+        Serial1.println("R");  // Using R for Reverse/Backward
+        Serial.println("Sent: R (Reverse)");
+        break;
+      case 0:  // Stop
+        Serial1.println("S");
+        Serial.println("Sent: S (Stop)");
+        break;
+    }
+    lastDirection = direction;
+  }
+  
+  // Send steering angle if changed by more than 2 degrees
+  if (abs(steerAngle - lastSteerAngle) > 2) {
+    Serial1.println(String(steerAngle));
+    Serial.print("Sent steering: ");
+    Serial.println(steerAngle);
+    lastSteerAngle = steerAngle;
+  }
+  
+  // Blink LED to show transmission
+  digitalWrite(LED_PIN, HIGH);
+  delay(5);
+  digitalWrite(LED_PIN, LOW);
+}

@@ -1,0 +1,179 @@
+#include <Servo.h>
+
+// -------- Pin Definitions --------
+#define IN1 8
+#define IN2 9
+#define IN3 10
+#define IN4 11
+#define SERVO_PIN 18
+#define LED_PIN 16
+
+
+// -------- Objects --------
+Servo steering;
+
+// -------- Debug Variables --------
+bool motorsEnabled = false;
+
+// -------- Setup --------
+void setup() {
+  // Start Serial FIRST for debugging
+  Serial.begin(115200);
+  delay(1000);  // Give time for Serial
+  
+  Serial.println("=== CAR SYSTEM STARTING ===");
+  
+  // Motor pins
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  pinMode(IN3, OUTPUT);
+  pinMode(IN4, OUTPUT);
+  
+  
+  // Initialize motors OFF
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, LOW);
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, LOW);
+  
+  
+  // Servo
+  Serial.print("Attaching servo to pin ");
+  Serial.println(SERVO_PIN);
+  steering.attach(SERVO_PIN);
+  
+  // Test servo range
+  Serial.println("Testing servo range 0-180...");
+  steering.write(0);
+  delay(500);
+  steering.write(90);
+  delay(500);
+  steering.write(180);
+  delay(500);
+  steering.write(90);
+  Serial.println("Servo test complete");
+  
+  // LED
+  pinMode(LED_PIN, OUTPUT);
+  
+  // HC-12 UART
+  Serial1.setTX(0);
+  Serial1.setRX(1);
+  Serial1.begin(9600);
+  Serial.println("HC-12 initialized at 9600 baud");
+  
+  Serial.println("=== SYSTEM READY ===");
+  
+  // Startup blink
+  for(int i = 0; i < 5; i++) {
+    digitalWrite(LED_PIN, HIGH);
+    delay(100);
+    digitalWrite(LED_PIN, LOW);
+    delay(100);
+  }
+}
+
+// -------- Motor Control --------
+void driveForward() {
+  Serial.println("DRIVE FORWARD");
+  
+  // Right motor forward
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, HIGH);
+  
+  // Left motor forward
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, HIGH);
+  
+  motorsEnabled = true;
+}
+
+void driveBackward() {
+  Serial.println("DRIVE BACKWARD");
+  
+  // Right motor backward
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+  
+  // Left motor backward
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, LOW);
+  
+  motorsEnabled = true;
+}
+
+void stopMotors() {
+  Serial.println("STOP MOTORS");
+  
+  // First disable PWM
+  // Then set all pins LOW
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, LOW);
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, LOW);
+  
+  motorsEnabled = false;
+}
+
+// -------- Main Loop --------
+void loop() {
+  // Listen for commands from HC-12
+  if (Serial1.available()) {
+    String cmd = Serial1.readStringUntil('\n');
+    cmd.trim();
+    
+    Serial.print("Received: '");
+    Serial.print(cmd);
+    Serial.println("'");
+    
+    // Blink LED
+    digitalWrite(LED_PIN, HIGH);
+    delay(50);
+    digitalWrite(LED_PIN, LOW);
+    
+    // Process command
+    if (cmd == "F") {
+      driveForward();
+    }
+    else if (cmd == "R") {
+      driveBackward();
+    }
+    else if (cmd == "S") {
+      stopMotors();
+    }
+    else {
+      // Try to parse as number for steering
+      int angle = cmd.toInt();
+      
+      // Check if conversion was successful
+      if (angle != 0 || cmd == "0") {
+        if (angle >= 0 && angle <= 180) {
+          Serial.print("Setting steering to: ");
+          Serial.println(angle);
+          steering.write(angle);
+        } else {
+          Serial.print("Invalid angle: ");
+          Serial.println(cmd);
+        }
+      } else {
+        Serial.print("Unknown command: ");
+        Serial.println(cmd);
+      }
+    }
+  }
+  
+  // Debug: Print motor state periodically
+  static unsigned long lastDebug = 0;
+  if (millis() - lastDebug > 3000) {
+    Serial.print("Motor state: ");
+    Serial.println(motorsEnabled ? "ON" : "OFF");
+    lastDebug = millis();
+  }
+  
+  // Heartbeat blink
+  static unsigned long lastHeartbeat = 0;
+  if (millis() - lastHeartbeat > 1000) {
+    digitalWrite(LED_PIN, !digitalRead(LED_PIN));
+    lastHeartbeat = millis();
+  }
+}

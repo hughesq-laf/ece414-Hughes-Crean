@@ -1,6 +1,9 @@
 #include "hcsr04.h"
 #include <Arduino.h>
 
+#define trigPin 27
+#define echoPin 28
+
 float distanceCm;
 
 void initHCSR04() {

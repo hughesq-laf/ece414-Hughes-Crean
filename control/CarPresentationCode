@@ -7,7 +7,8 @@
 #define IN4 11
 #define SERVO_PIN 18
 #define LED_PIN 16
-
+#define TRIG_PIN 14  // Ultrasonic trigger
+#define ECHO_PIN 15  // Ultrasonic echo
 
 // -------- Objects --------
 Servo steering;
@@ -15,11 +16,24 @@ Servo steering;
 // -------- Debug Variables --------
 bool motorsEnabled = false;
 
+// -------- Cruise Control Variables --------
+String currentCommand = "S";  // Track what the controller wants
+int targetSpeed = 255;  // What speed we're trying to achieve (0-255)
+
+// Distance thresholds (in cm)
+#define DANGER_DISTANCE 15    // Emergency stop distance
+#define SLOW_DISTANCE 50      // Start slowing down
+#define CRUISE_DISTANCE 100   // Full speed beyond this
+
+// Dynamic following
+float lastDistance = 0;
+float objectSpeed = 0;  // Estimated speed of object in front
+unsigned long lastDistanceTime = 0;
+
 // -------- Setup --------
 void setup() {
-  // Start Serial FIRST for debugging
   Serial.begin(115200);
-  delay(1000);  // Give time for Serial
+  delay(1000);
   
   Serial.println("=== CAR SYSTEM STARTING ===");
   
@@ -29,21 +43,21 @@ void setup() {
   pinMode(IN3, OUTPUT);
   pinMode(IN4, OUTPUT);
   
-  
-  // Initialize motors OFF
   digitalWrite(IN1, LOW);
   digitalWrite(IN2, LOW);
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, LOW);
   
+  // Ultrasonic
+  pinMode(TRIG_PIN, OUTPUT);
+  pinMode(ECHO_PIN, INPUT);
+  Serial.println("Ultrasonic sensor initialized");
   
   // Servo
   Serial.print("Attaching servo to pin ");
   Serial.println(SERVO_PIN);
   steering.attach(SERVO_PIN);
   
-  // Test servo range
-  Serial.println("Testing servo range 0-180...");
   steering.write(0);
   delay(500);
   steering.write(90);
@@ -63,6 +77,7 @@ void setup() {
   Serial.println("HC-12 initialized at 9600 baud");
   
   Serial.println("=== SYSTEM READY ===");
+  Serial.println("Cruise Control: ALWAYS ACTIVE");
   
   // Startup blink
   for(int i = 0; i < 5; i++) {
@@ -73,46 +88,166 @@ void setup() {
   }
 }
 
-// -------- Motor Control --------
+// -------- Ultrasonic Distance --------
+float getDistance() {
+  digitalWrite(TRIG_PIN, LOW);
+  delayMicroseconds(2);
+  digitalWrite(TRIG_PIN, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TRIG_PIN, LOW);
+  
+  long duration = pulseIn(ECHO_PIN, HIGH, 30000);  // Timeout at 30ms
+  if (duration == 0) return 999;  // No echo = far away
+  
+  float distance = duration * 0.034 / 2;  // cm
+  return distance;
+}
+
+// -------- Motor Control with Speed --------
+void setMotorSpeed(int speed) {
+  // Constrain speed 0-255
+  speed = constrain(speed, 0, 255);
+  targetSpeed = speed;
+  
+  if (speed == 0) {
+    stopMotors();
+    return;
+  }
+  
+  // Apply speed based on current direction
+  if (currentCommand == "F") {
+    digitalWrite(IN1, LOW);
+    digitalWrite(IN2, speed > 0 ? HIGH : LOW);
+    digitalWrite(IN3, LOW);
+    digitalWrite(IN4, speed > 0 ? HIGH : LOW);
+    motorsEnabled = true;
+  }
+  else if (currentCommand == "R") {
+    digitalWrite(IN1, speed > 0 ? HIGH : LOW);
+    digitalWrite(IN2, LOW);
+    digitalWrite(IN3, speed > 0 ? HIGH : LOW);
+    digitalWrite(IN4, LOW);
+    motorsEnabled = true;
+  }
+}
+
 void driveForward() {
   Serial.println("DRIVE FORWARD");
-  
-  // Right motor forward
-  digitalWrite(IN1, LOW);
-  digitalWrite(IN2, HIGH);
-  
-  // Left motor forward
-  digitalWrite(IN3, LOW);
-  digitalWrite(IN4, HIGH);
-  
-  motorsEnabled = true;
+  currentCommand = "F";
+  setMotorSpeed(targetSpeed);
 }
 
 void driveBackward() {
   Serial.println("DRIVE BACKWARD");
-  
-  // Right motor backward
-  digitalWrite(IN1, HIGH);
-  digitalWrite(IN2, LOW);
-  
-  // Left motor backward
-  digitalWrite(IN3, HIGH);
-  digitalWrite(IN4, LOW);
-  
-  motorsEnabled = true;
+  currentCommand = "R";
+  setMotorSpeed(targetSpeed);
 }
 
 void stopMotors() {
   Serial.println("STOP MOTORS");
-  
-  // First disable PWM
-  // Then set all pins LOW
   digitalWrite(IN1, LOW);
   digitalWrite(IN2, LOW);
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, LOW);
-  
   motorsEnabled = false;
+  targetSpeed = 0;
+}
+
+// -------- Cruise Control Logic --------
+void updateCruiseControl() {
+  if (currentCommand == "S") {
+    return;  // Don't do anything if stopped
+  }
+  
+  float distance = getDistance();
+  
+  // Calculate object speed (simple derivative)
+  unsigned long now = millis();
+  if (lastDistanceTime > 0) {
+    float timeDelta = (now - lastDistanceTime) / 1000.0;  // seconds
+    if (timeDelta > 0.1) {  // Update every 100ms
+      objectSpeed = (distance - lastDistance) / timeDelta;  // cm/s
+      lastDistance = distance;
+      lastDistanceTime = now;
+    }
+  } else {
+    lastDistance = distance;
+    lastDistanceTime = now;
+  }
+  
+  // DANGER ZONE - Emergency override!
+  if (distance < DANGER_DISTANCE) {
+    Serial.println("!!! COLLISION IMMINENT !!!");
+    
+    // Override: reverse away
+    if (currentCommand == "F") {
+      Serial.println("Emergency reverse!");
+      digitalWrite(IN1, HIGH);
+      digitalWrite(IN2, LOW);
+      digitalWrite(IN3, HIGH);
+      digitalWrite(IN4, LOW);
+      delay(500);  // Back up for 500ms
+    } else {
+      Serial.println("Emergency forward!");
+      digitalWrite(IN1, LOW);
+      digitalWrite(IN2, HIGH);
+      digitalWrite(IN3, LOW);
+      digitalWrite(IN4, HIGH);
+      delay(500);
+    }
+    
+    // Stop and pause
+    stopMotors();
+    delay(1000);
+    
+    // Triple blink warning
+    for(int i = 0; i < 3; i++) {
+      digitalWrite(LED_PIN, HIGH);
+      delay(100);
+      digitalWrite(LED_PIN, LOW);
+      delay(100);
+    }
+    
+    return;
+  }
+  
+  // Calculate target speed based on distance
+  int adjustedSpeed;
+  
+  if (distance > CRUISE_DISTANCE) {
+    // Far away - full speed
+    adjustedSpeed = 255;
+  }
+  else if (distance > SLOW_DISTANCE) {
+    // Medium distance - proportional speed
+    adjustedSpeed = map(distance, SLOW_DISTANCE, CRUISE_DISTANCE, 150, 255);
+  }
+  else {
+    // Close distance - slow down more
+    adjustedSpeed = map(distance, DANGER_DISTANCE, SLOW_DISTANCE, 80, 150);
+  }
+  
+  // Dynamic following: adjust for object movement
+  if (objectSpeed < -5) {  // Object moving away
+    adjustedSpeed += 30;  // Speed up to follow
+    Serial.println("Object moving away - speeding up");
+  }
+  else if (objectSpeed > 5) {  // Object coming closer
+    adjustedSpeed -= 30;  // Slow down more
+    Serial.println("Object approaching - slowing more");
+  }
+  
+  // Apply the adjusted speed
+  adjustedSpeed = constrain(adjustedSpeed, 0, 255);
+  setMotorSpeed(adjustedSpeed);
+  
+  // Debug output
+  Serial.print("Dist: ");
+  Serial.print(distance);
+  Serial.print("cm | ObjSpd: ");
+  Serial.print(objectSpeed);
+  Serial.print(" cm/s | Speed: ");
+  Serial.println(adjustedSpeed);
 }
 
 // -------- Main Loop --------
@@ -126,7 +261,6 @@ void loop() {
     Serial.print(cmd);
     Serial.println("'");
     
-    // Blink LED
     digitalWrite(LED_PIN, HIGH);
     delay(50);
     digitalWrite(LED_PIN, LOW);
@@ -139,13 +273,12 @@ void loop() {
       driveBackward();
     }
     else if (cmd == "S") {
+      currentCommand = "S";
       stopMotors();
     }
     else {
-      // Try to parse as number for steering
+      // Parse steering angle
       int angle = cmd.toInt();
-      
-      // Check if conversion was successful
       if (angle != 0 || cmd == "0") {
         if (angle >= 0 && angle <= 180) {
           Serial.print("Setting steering to: ");
@@ -162,12 +295,11 @@ void loop() {
     }
   }
   
-  // Debug: Print motor state periodically
-  static unsigned long lastDebug = 0;
-  if (millis() - lastDebug > 3000) {
-    Serial.print("Motor state: ");
-    Serial.println(motorsEnabled ? "ON" : "OFF");
-    lastDebug = millis();
+  // Update cruise control every 100ms
+  static unsigned long lastCruiseUpdate = 0;
+  if (millis() - lastCruiseUpdate > 100) {
+    updateCruiseControl();
+    lastCruiseUpdate = millis();
   }
   
   // Heartbeat blink
